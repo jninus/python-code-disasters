@@ -1,3 +1,6 @@
+from flask.utils import constant
+
+
 class NewProjectWizard(AjaxFormWizard):
     def __init__(self):  # nice one.
         pass
@@ -5,7 +8,7 @@ class NewProjectWizard(AjaxFormWizard):
     def context(self):
         return dict()
 
-    step1_title = "Информация об исследовании"
+    step1_title = constant.STEP1_TITLE
 
     def step1_context(self):
         can_create = True
@@ -22,22 +25,16 @@ class NewProjectWizard(AjaxFormWizard):
 
     def step1_form(self):
         class Step1Form(AjaxForm):
-            #industry    = HierarchicalSelectField(label="Отрасль", coerce=int, choices=OrderedDict([
-            #    (industry.title, children_list(industry))
-            #    for industry in db.session.query(Industry).\
-            #                               filter(Industry.parent == None).\
-            #                               order_by(Industry.title)
-            ###]))
-            title       = fields.TextField(label="Название проекта", validators=[validators.Required()])
+            title       = fields.TextField(label=constant.LABEL_STEP1_FORM, validators=[validators.Required()])
 
         return Step1Form()
 
-    step2_title = "Цель исследования"
+    step2_title = constant.STEP2_TITLE
 
     def step2_form(self, data):  # class is defined inside method (?!):
         class Step2Form(AjaxForm):
             #parameters      = create_parameter_groups_select_field(db.session.query(Industry).get(data["1"]["industry"]))
-            use_template    = RadioSelectField(label="Собственная анкета или шаблон?",
+            use_template    = RadioSelectField(label=constant.LABEL_STEP2_FORM,
                                                choices=[("own", "Создать свою анкету"),
                                                         ("template", "Использовать шаблон")],
                                                default="own")
